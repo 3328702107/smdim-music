@@ -146,7 +146,7 @@
       <section id="diy" class="section">
         <h2>4. DIY in Real Time!</h2>
         <p>Try our interactive tool to generate accompaniments from your own melody and chords.</p>
-        <p><a class="cta" href="#" target="_blank" rel="noopener">Try the Interactive Demo →</a></p>
+        <p><a class="cta" href="https://github.com/3328702107/smdim-music" target="_blank" rel="noopener">Try the Interactive Demo →</a></p>
       </section>
     </main>
     <button
