@@ -39,6 +39,7 @@
             </div>
             <div class="col">
               <h3>Generated Accompaniments</h3>
+              <p class="sub">&nbsp;</p>
               <figure class="audio-block"><audio controls preload="none" class="audio" aria-label="Generated Accompaniment Example 1"><source src="" /></audio><figcaption class="visually-hidden">Generated accompaniment output - Example 1</figcaption></figure>
             </div>
           </div>
@@ -53,6 +54,7 @@
             </div>
             <div class="col">
               <h3>Generated Accompaniments</h3>
+              <p class="sub">&nbsp;</p>
               <figure class="audio-block"><audio controls preload="none" class="audio" aria-label="Generated Accompaniment Example 2"><source src="" /></audio><figcaption class="visually-hidden">Generated accompaniment output - Example 2</figcaption></figure>
             </div>
           </div>
