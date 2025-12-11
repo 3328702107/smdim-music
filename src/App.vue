@@ -131,10 +131,11 @@ export default {
         this.isLoading = true
         this.playingIndex = idx
 
+        const base = process.env.BASE_URL || '/'
         const fileMap = {
-          1: 'audio/demo1.midi',
-          2: 'audio/demo2.midi',
-          3: 'audio/demo3.midi'
+          1: base + 'audio/demo1.midi',
+          2: base + 'audio/demo2.midi',
+          3: base + 'audio/demo3.midi'
         }
         const url = fileMap[idx]
         if (!url) return
@@ -234,7 +235,8 @@ export default {
         const idx = this.playingIndex
         const { Midi } = await import('@tonejs/midi')
         const Soundfont = (await import('soundfont-player')).default
-        const fileMap = { 1: 'audio/demo1.midi', 2: 'audio/demo2.midi', 3: 'audio/demo3.midi' }
+        const base = process.env.BASE_URL || '/'
+        const fileMap = { 1: base + 'audio/demo1.midi', 2: base + 'audio/demo2.midi', 3: base + 'audio/demo3.midi' }
         const url = fileMap[idx]
         const resp = await fetch(url)
         if (!resp.ok) throw new Error('Failed to fetch MIDI: ' + resp.status)
