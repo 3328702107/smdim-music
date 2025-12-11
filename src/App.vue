@@ -9,10 +9,8 @@
         <a href="https://github.com/3328702107/smdim-music" target="_blank" rel="noopener" class="link">Code Repo</a>
       </div>
       <nav class="topnav">
-        <a href="#accompaniment">1. Accompaniment</a>
-        <a href="#style">2. Style</a>
-        <a href="#comparison">3. Comparison</a>
-        <a href="#diy">4. DIY</a>
+        <a href="#demos">Demos</a>
+        <a href="#diy">DIY</a>
       </nav>
     </header>
 
@@ -26,125 +24,49 @@
 
       
 
-      <section id="accompaniment" class="section">
-        <h2>1. Accompaniment Generation given Melody and Chord</h2>
-        <p>SMDIM generates coherent accompaniments conditioned on provided melodies and chords.</p>
+      <section id="demos" class="section">
+        <h2>Demo Audios</h2>
+        <p>Three demo audios generated on different datasets to illustrate quality and style.</p>
 
-        <div class="example-card warm">
-          <div class="example-grid">
-            <div class="col">
-              <h3>Example 1</h3>
-              <p class="sub">With the following melody as condition</p>
-              <figure class="audio-block"><audio controls preload="none" class="audio" aria-label="Accompaniment Example 1 - Conditioning Melody"><source src="" /></audio><figcaption class="visually-hidden">Generated accompaniment conditioning melody - Example 1</figcaption></figure>
-            </div>
-            <div class="col">
-              <h3>Generated Accompaniments</h3>
-              <p class="sub">&nbsp;</p>
-              <figure class="audio-block"><audio controls preload="none" class="audio" aria-label="Generated Accompaniment Example 1"><source src="" /></audio><figcaption class="visually-hidden">Generated accompaniment output - Example 1</figcaption></figure>
-            </div>
+        <div class="demo-list">
+          <div class="demo-item example-card warm">
+            <h3>Demo 1 </h3>
+              <div class="player">
+              <button class="btn" @click="playMidi(1)" :disabled="isLoading && playingIndex===1">▶ Play</button>
+              <button class="btn outline" @click="pauseMidi" :disabled="playingIndex!==1 || isPaused">⏸ Pause</button>
+              <button class="btn outline" @click="playMidi(1)" :disabled="playingIndex!==1 || !isPaused">▶ Resume</button>
+              <button class="btn outline" @click="stopMidi" :disabled="playingIndex!==1">■ Stop</button>
+                <a class="btn link" href="/audio/demo1.midi" download>Download</a>
+              <div class="progress"><div class="bar" :style="{width: (progressList[0]*100)+'%'}"></div></div>
+              </div>
           </div>
-        </div>
-
-        <div class="example-card warm">
-          <div class="example-grid">
-            <div class="col">
-              <h3>Example 2</h3>
-              <p class="sub">With the following melody as condition</p>
-              <figure class="audio-block"><audio controls preload="none" class="audio" aria-label="Accompaniment Example 2 - Conditioning Melody"><source src="" /></audio><figcaption class="visually-hidden">Generated accompaniment conditioning melody - Example 2</figcaption></figure>
-            </div>
-            <div class="col">
-              <h3>Generated Accompaniments</h3>
-              <p class="sub">&nbsp;</p>
-              <figure class="audio-block"><audio controls preload="none" class="audio" aria-label="Generated Accompaniment Example 2"><source src="" /></audio><figcaption class="visually-hidden">Generated accompaniment output - Example 2</figcaption></figure>
-            </div>
+          <div class="demo-item example-card warm">
+            <h3>Demo 2 </h3>
+              <div class="player">
+              <button class="btn" @click="playMidi(2)" :disabled="isLoading && playingIndex===2">▶ Play</button>
+              <button class="btn outline" @click="pauseMidi" :disabled="playingIndex!==2 || isPaused">⏸ Pause</button>
+              <button class="btn outline" @click="playMidi(2)" :disabled="playingIndex!==2 || !isPaused">▶ Resume</button>
+              <button class="btn outline" @click="stopMidi" :disabled="playingIndex!==2">■ Stop</button>
+                <a class="btn link" href="/audio/demo2.midi" download>Download</a>
+              <div class="progress"><div class="bar" :style="{width: (progressList[1]*100)+'%'}"></div></div>
+              </div>
           </div>
-        </div>
-      </section>
-
-      <section id="style" class="section">
-        <h2>2. Style-Controlled Music Generation</h2>
-        <p>SMDIM enables stylization control. Sampling adheres strictly to target scales, enabling generation in specific styles even beyond training distribution.</p>
-        <ul>
-          <li>Dorian Mode: A-B-C-D-E-F#-G</li>
-          <li>Chinese Style: C-D-E-G-A</li>
-        </ul>
-
-        <div class="example-card warm">
-          <h3>Dorian Mode</h3>
-          <div class="example-grid">
-            <div class="col">
-              <p class="sub">Example 1</p>
-              <figure class="audio-block"><audio controls preload="none" class="audio" aria-label="Dorian Mode Example 1"><source src="" /></audio><figcaption class="visually-hidden">Dorian Mode style sample - Example 1</figcaption></figure>
-            </div>
-            <div class="col">
-              <p class="sub">Example 2</p>
-              <figure class="audio-block"><audio controls preload="none" class="audio" aria-label="Dorian Mode Example 2"><source src="" /></audio><figcaption class="visually-hidden">Dorian Mode style sample - Example 2</figcaption></figure>
-            </div>
-          </div>
-        </div>
-
-        <div class="example-card cool">
-          <h3>Chinese Style</h3>
-          <div class="example-grid">
-            <div class="col">
-              <p class="sub">Example 1</p>
-              <figure class="audio-block"><audio controls preload="none" class="audio" aria-label="Chinese Style Example 1"><source src="" /></audio><figcaption class="visually-hidden">Chinese Style sample - Example 1</figcaption></figure>
-            </div>
-            <div class="col">
-              <p class="sub">Example 2</p>
-              <figure class="audio-block"><audio controls preload="none" class="audio" aria-label="Chinese Style Example 2"><source src="" /></audio><figcaption class="visually-hidden">Chinese Style sample - Example 2</figcaption></figure>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="comparison" class="section">
-        <h2>3. Demonstrating the Effectiveness by Comparison</h2>
-        <p>
-          We compare different ablative conditions using the same random seed to isolate the effect of sampling control on accompaniment generation.
-        </p>
-        <ol>
-          <li>Only Training Control</li>
-          <li>Training Control + Remove Out-of-Key Notes (last step)</li>
-          <li>Training Control + Round Out-of-Key Notes to Nearest (last step)</li>
-          <li>Inpainting Method</li>
-        </ol>
-
-        <div class="example-card warm">
-          <h3>Example 1</h3>
-          <div class="abl-grid">
-            <div class="abl-col image">
-              <div class="img-placeholder">Melody + Chord (score image)</div>
-            </div>
-            <div class="abl-col audios">
-              <div class="audio-row"><span class="tag primary">Ours</span><audio controls preload="none" class="audio" aria-label="Ablation Example 1 - Ours"><source src="" /></audio></div>
-              <div class="audio-row"><span class="tag">Only Training</span><audio controls preload="none" class="audio" aria-label="Ablation Example 1 - Only Training"><source src="" /></audio></div>
-              <div class="audio-row"><span class="tag">Remove OOK</span><audio controls preload="none" class="audio" aria-label="Ablation Example 1 - Remove Out-of-Key"><source src="" /></audio></div>
-              <div class="audio-row"><span class="tag">Round OOK</span><audio controls preload="none" class="audio" aria-label="Ablation Example 1 - Round Out-of-Key"><source src="" /></audio></div>
-              <div class="audio-row"><span class="tag">Inpainting</span><audio controls preload="none" class="audio" aria-label="Ablation Example 1 - Inpainting"><source src="" /></audio></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="example-card warm">
-          <h3>Example 2</h3>
-          <div class="abl-grid">
-            <div class="abl-col image">
-              <div class="img-placeholder">Melody + Chord (score image)</div>
-            </div>
-            <div class="abl-col audios">
-              <div class="audio-row"><span class="tag primary">Ours</span><audio controls preload="none" class="audio" aria-label="Ablation Example 2 - Ours"><source src="" /></audio></div>
-              <div class="audio-row"><span class="tag">Only Training</span><audio controls preload="none" class="audio" aria-label="Ablation Example 2 - Only Training"><source src="" /></audio></div>
-              <div class="audio-row"><span class="tag">Remove OOK</span><audio controls preload="none" class="audio" aria-label="Ablation Example 2 - Remove Out-of-Key"><source src="" /></audio></div>
-              <div class="audio-row"><span class="tag">Round OOK</span><audio controls preload="none" class="audio" aria-label="Ablation Example 2 - Round Out-of-Key"><source src="" /></audio></div>
-              <div class="audio-row"><span class="tag">Inpainting</span><audio controls preload="none" class="audio" aria-label="Ablation Example 2 - Inpainting"><source src="" /></audio></div>
-            </div>
+          <div class="demo-item example-card warm">
+            <h3>Demo 3 </h3>
+              <div class="player">
+              <button class="btn" @click="playMidi(3)" :disabled="isLoading && playingIndex===3">▶ Play</button>
+              <button class="btn outline" @click="pauseMidi" :disabled="playingIndex!==3 || isPaused">⏸ Pause</button>
+              <button class="btn outline" @click="playMidi(3)" :disabled="playingIndex!==3 || !isPaused">▶ Resume</button>
+              <button class="btn outline" @click="stopMidi" :disabled="playingIndex!==3">■ Stop</button>
+                <a class="btn link" href="/audio/demo3.midi" download>Download</a>
+              <div class="progress"><div class="bar" :style="{width: (progressList[2]*100)+'%'}"></div></div>
+              </div>
           </div>
         </div>
       </section>
 
       <section id="diy" class="section">
-        <h2>4. DIY in Real Time!</h2>
+        <h2>DIY in Real Time!</h2>
         <p>Try our interactive tool to generate accompaniments from your own melody and chords.</p>
         <p><a class="cta" href="https://github.com/3328702107/smdim-music" target="_blank" rel="noopener">Try the Interactive Demo →</a></p>
       </section>
@@ -166,6 +88,19 @@ export default {
   data() {
     return {
       showTop: false,
+      playingIndex: null,
+      isLoading: false,
+      // Per-demo progress and duration
+      progressList: [0, 0, 0],
+      durationList: [0, 0, 0],
+      // Playback state
+      isPaused: false,
+      audioCtx: null,
+      player: null,
+      events: [],
+      startTime: 0,
+      pausedAt: 0,
+      rafId: null,
     }
   },
   mounted() {
@@ -182,6 +117,197 @@ export default {
     },
     scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' })
+    },
+    async playMidi(idx) {
+      try {
+        // Resume if paused on the same track
+        if (this.playingIndex === idx && this.isPaused) {
+          await this.resumeMidi()
+          return
+        }
+
+        // Stop any current playback and start fresh
+        if (this.playingIndex !== null) await this.stopMidi()
+        this.isLoading = true
+        this.playingIndex = idx
+
+        const fileMap = {
+          1: '/audio/demo1.midi',
+          2: '/audio/demo2.midi',
+          3: '/audio/demo3.midi'
+        }
+        const url = fileMap[idx]
+        if (!url) return
+
+        const { Midi } = await import('@tonejs/midi')
+        const Soundfont = (await import('soundfont-player')).default
+
+        // Prepare WebAudio context
+        const AudioCtx = window.AudioContext || window.webkitAudioContext
+        this.audioCtx = new AudioCtx()
+
+        const resp = await fetch(url)
+        if (!resp.ok) {
+          throw new Error('Failed to fetch MIDI: ' + resp.status)
+        }
+        const arrayBuffer = await resp.arrayBuffer()
+        const midi = new Midi(arrayBuffer)
+
+        // Load instrument (acoustic grand piano)
+        this.player = await Soundfont.instrument(this.audioCtx, 'acoustic_grand_piano')
+
+        // Collect events
+        const events = []
+        midi.tracks.forEach(track => {
+          track.notes.forEach(note => {
+            events.push({
+              time: note.time,
+              name: note.name,
+              duration: note.duration,
+              velocity: note.velocity ?? 0.8
+            })
+          })
+        })
+        this.events = events
+        // Schedule notes relative to context time
+        this.startTime = this.audioCtx.currentTime + 0.05
+        this.events.forEach(ev => {
+          this.player.play(ev.name, this.startTime + (ev.time || 0), {
+            gain: ev.velocity ?? 0.8,
+            duration: ev.duration || 0.5
+          })
+        })
+
+        // Compute duration from MIDI or events
+        const lastEnd = events.reduce((m, e) => Math.max(m, (e.time || 0) + (e.duration || 0)), 0)
+        const idx0 = idx - 1
+        this.durationList[idx0] = midi.duration || lastEnd || 10
+        this.progressList[idx0] = 0
+        this.isPaused = false
+        console.log('[midi] start playback, duration:', this.durationList[idx0])
+
+        // Progress via requestAnimationFrame
+        const tick = () => {
+          const t = Math.max(0, (this.audioCtx.currentTime - this.startTime))
+          this.progressList[idx0] = Math.min(1, t / this.durationList[idx0])
+          if (t >= this.durationList[idx0]) {
+            this.stopMidi()
+            return
+          }
+          this.rafId = requestAnimationFrame(tick)
+        }
+        this.rafId = requestAnimationFrame(tick)
+
+      } catch (e) {
+        console.error('MIDI play error:', e)
+      } finally {
+        this.isLoading = false
+      }
+    },
+    async pauseMidi() {
+      try {
+        if (this.playingIndex !== null && !this.isPaused) {
+          this.isPaused = true
+          // Record paused position
+          if (this.audioCtx) {
+            this.pausedAt = Math.max(0, this.audioCtx.currentTime - this.startTime)
+          }
+          // Stop progress loop
+          if (this.rafId) { cancelAnimationFrame(this.rafId); this.rafId = null }
+          // Cancel current audio (soundfont-player has no pause; stop by closing context)
+          if (this.player && typeof this.player.stop === 'function') {
+            try { this.player.stop() } catch (x) { console.debug('player.stop failed during pause', x) }
+          }
+          if (this.audioCtx && typeof this.audioCtx.close === 'function') {
+            try { await this.audioCtx.close() } catch (x) { console.debug('audioCtx.close failed during pause', x) }
+          }
+          this.player = null
+          this.audioCtx = null
+        }
+      } catch (e) {
+        console.warn('pause error', e)
+      }
+    },
+    async resumeMidi() {
+      try {
+        if (this.playingIndex === null || !this.isPaused) return
+        const idx = this.playingIndex
+        const { Midi } = await import('@tonejs/midi')
+        const Soundfont = (await import('soundfont-player')).default
+        const fileMap = { 1: '/audio/demo1.midi', 2: '/audio/demo2.midi', 3: '/audio/demo3.midi' }
+        const url = fileMap[idx]
+        const resp = await fetch(url)
+        if (!resp.ok) throw new Error('Failed to fetch MIDI: ' + resp.status)
+        const arrayBuffer = await resp.arrayBuffer()
+        const midi = new Midi(arrayBuffer)
+
+        // Recreate context and player
+        const AudioCtx = window.AudioContext || window.webkitAudioContext
+        this.audioCtx = new AudioCtx()
+        this.player = await Soundfont.instrument(this.audioCtx, 'acoustic_grand_piano')
+
+        // Schedule remaining notes starting at pausedAt
+        const offset = this.pausedAt || 0
+        this.startTime = this.audioCtx.currentTime - offset
+        const idx0 = idx - 1
+        this.progressList[idx0] = Math.min(1, offset / (this.durationList[idx0] || 1))
+
+        const events = []
+        midi.tracks.forEach(track => {
+          track.notes.forEach(note => {
+            events.push({
+              time: note.time,
+              name: note.name,
+              duration: note.duration,
+              velocity: note.velocity ?? 0.8
+            })
+          })
+        })
+        // Schedule only events with time >= offset
+        events.filter(ev => (ev.time || 0) >= offset - 1e-3).forEach(ev => {
+          this.player.play(ev.name, this.audioCtx.currentTime + ((ev.time || 0) - offset), {
+            gain: ev.velocity ?? 0.8,
+            duration: ev.duration || 0.5
+          })
+        })
+
+        this.isPaused = false
+        const tick = () => {
+          const t = Math.max(0, (this.audioCtx.currentTime - (this.startTime)))
+          this.progressList[idx0] = Math.min(1, t / this.durationList[idx0])
+          if (t >= this.durationList[idx0]) { this.stopMidi(); return }
+          this.rafId = requestAnimationFrame(tick)
+        }
+        this.rafId = requestAnimationFrame(tick)
+      } catch (e) {
+        console.warn('resume error', e)
+      }
+    },
+    async stopMidi() {
+      try {
+        if (this.rafId) { cancelAnimationFrame(this.rafId); this.rafId = null }
+        if (this.playingIndex !== null) {
+          const idx0 = this.playingIndex - 1
+          this.progressList[idx0] = 0
+          this.durationList[idx0] = this.durationList[idx0] || 0
+        }
+        this.isPaused = false
+        if (this.player && typeof this.player.stop === 'function') {
+          try { this.player.stop() } catch (x) { console.debug('player.stop failed during stop', x) }
+        }
+        this.player = null
+        if (this.audioCtx && typeof this.audioCtx.close === 'function') {
+          try { await this.audioCtx.close() } catch (x) { console.debug('audioCtx.close failed during stop', x) }
+        }
+        this.audioCtx = null
+        this.events = []
+        this.startTime = 0
+        this.pausedAt = 0
+        this.playingIndex = null
+      } catch (e) {
+        console.warn('MIDI stop warning:', e)
+        this.playingIndex = null
+      }
     }
   }
 }
@@ -263,6 +389,13 @@ export default {
 .col h3 { margin: 0 0 6px; }
 .sub { color: var(--muted); margin: 8px 0; }
 .audio { width: 100%; }
+.player { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.btn { padding:8px 12px; border-radius:8px; border:1px solid #e5e7eb; background:#111827; color:#fff; cursor:pointer; }
+.btn.outline { background:#fff; color:#111827; }
+.btn.link { background:#fff; color:#2563eb; border-color:#bfdbfe; text-decoration:none; }
+.btn:disabled { opacity:.6; cursor:not-allowed; }
+.progress { position: relative; flex: 1 1 160px; height: 8px; background: #e5e7eb; border-radius: 999px; overflow: hidden; }
+.progress .bar { position:absolute; left:0; top:0; bottom:0; width:0%; background:#3b82f6; }
 
 .abl-grid { display: grid; grid-template-columns: 320px 1fr; gap: 18px; align-items: start; }
 .img-placeholder { background: #fff7ed; border: 1px dashed #f59e0b; color:#a16207; padding: 24px; border-radius: 12px; text-align:center; }
