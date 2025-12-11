@@ -261,6 +261,7 @@ export default {
           const t = Math.max(0, (this.audioCtx.currentTime - this.startTime))
           this.progressList[idx0] = Math.min(1, t / this.durationList[idx0])
           if (t >= this.durationList[idx0]) {
+            this.progressList[idx0] = 1
             this.stopMidi()
             return
           }
@@ -357,11 +358,6 @@ export default {
     async stopMidi() {
       try {
         if (this.rafId) { cancelAnimationFrame(this.rafId); this.rafId = null }
-        if (this.playingIndex !== null) {
-          const idx0 = this.playingIndex - 1
-          this.progressList[idx0] = 0
-          this.durationList[idx0] = this.durationList[idx0] || 0
-        }
         this.isPaused = false
         if (this.player && typeof this.player.stop === 'function') {
           try { this.player.stop() } catch (x) { console.debug('player.stop failed during stop', x) }
