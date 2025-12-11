@@ -37,7 +37,9 @@
               <button class="btn outline" @click="playMidi(1)" :disabled="playingIndex!==1 || !isPaused">▶ Resume</button>
               <button class="btn outline" @click="stopMidi" :disabled="playingIndex!==1">■ Stop</button>
                 <a class="btn link" href="audio/demo1.midi" download>Download</a>
-              <div class="progress"><div class="bar" :style="{width: (progressList[0]*100)+'%'}"></div></div>
+              <input class="slider" type="range" min="0" max="100" :value="Math.round(progressList[0]*100)"
+                @input="onSliderInput($event, 1)" @change="onSliderChange($event, 1)" />
+              <div class="time">{{ formatTime(progressList[0]*durationList[0]) }} / {{ formatTime(durationList[0]) }}</div>
               </div>
           </div>
           <div class="demo-item example-card warm">
@@ -48,7 +50,9 @@
               <button class="btn outline" @click="playMidi(2)" :disabled="playingIndex!==2 || !isPaused">▶ Resume</button>
               <button class="btn outline" @click="stopMidi" :disabled="playingIndex!==2">■ Stop</button>
                 <a class="btn link" href="audio/demo2.midi" download>Download</a>
-              <div class="progress"><div class="bar" :style="{width: (progressList[1]*100)+'%'}"></div></div>
+              <input class="slider" type="range" min="0" max="100" :value="Math.round(progressList[1]*100)"
+                @input="onSliderInput($event, 2)" @change="onSliderChange($event, 2)" />
+              <div class="time">{{ formatTime(progressList[1]*durationList[1]) }} / {{ formatTime(durationList[1]) }}</div>
               </div>
           </div>
           <div class="demo-item example-card warm">
@@ -59,7 +63,9 @@
               <button class="btn outline" @click="playMidi(3)" :disabled="playingIndex!==3 || !isPaused">▶ Resume</button>
               <button class="btn outline" @click="stopMidi" :disabled="playingIndex!==3">■ Stop</button>
                 <a class="btn link" href="audio/demo3.midi" download>Download</a>
-              <div class="progress"><div class="bar" :style="{width: (progressList[2]*100)+'%'}"></div></div>
+              <input class="slider" type="range" min="0" max="100" :value="Math.round(progressList[2]*100)"
+                @input="onSliderInput($event, 3)" @change="onSliderChange($event, 3)" />
+              <div class="time">{{ formatTime(progressList[2]*durationList[2]) }} / {{ formatTime(durationList[2]) }}</div>
               </div>
           </div>
         </div>
@@ -101,6 +107,8 @@ export default {
       startTime: 0,
       pausedAt: 0,
       rafId: null,
+      isDragging: false,
+      lastSeekAt: 0,
     }
   },
   mounted() {
@@ -114,6 +122,67 @@ export default {
     onScroll() {
       const y = window.scrollY || document.documentElement.scrollTop
       this.showTop = y > 400
+    },
+    formatTime(seconds) {
+      const s = Math.max(0, Math.floor(seconds || 0))
+      const m = Math.floor(s / 60)
+      const r = s % 60
+      return `${m}:${r.toString().padStart(2, '0')}`
+    },
+    onSliderInput(e, idx) {
+      // Visual preview while dragging
+      if (this.playingIndex !== idx) return
+      const val = Number(e.target.value || 0)
+      const percent = Math.min(1, Math.max(0, val / 100))
+      const idx0 = idx - 1
+      this.isDragging = true
+      // Update progress visually and time text
+      this.progressList[idx0] = percent
+      // Realtime seek while playing: throttle to avoid excessive re-scheduling
+      const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now()
+      if (!this.isPaused && (now - this.lastSeekAt > 120)) {
+        this.lastSeekAt = now
+        this.seekTo(idx, percent)
+      }
+    },
+    onSliderChange(e, idx) {
+      if (this.playingIndex !== idx) return
+      const val = Number(e.target.value || 0)
+      const percent = Math.min(1, Math.max(0, val / 100))
+      this.isDragging = false
+      this.seekTo(idx, percent)
+    },
+    async seekTo(idx, percent) {
+      try {
+        const idx0 = idx - 1
+        const dur = this.durationList[idx0] || 0
+        const targetOffset = dur * percent
+        // If paused, just update pausedAt and progress, allow resume later
+        if (this.isPaused) {
+          this.pausedAt = targetOffset
+          this.progressList[idx0] = Math.min(1, percent)
+          return
+        }
+        // If playing, restart from target offset
+        if (this.playingIndex === idx) {
+          // Stop current audio without clearing playingIndex
+          if (this.rafId) { cancelAnimationFrame(this.rafId); this.rafId = null }
+          if (this.player && typeof this.player.stop === 'function') {
+            try { this.player.stop() } catch (x) { console.debug('player.stop failed during seek', x) }
+          }
+          if (this.audioCtx && typeof this.audioCtx.close === 'function') {
+            try { await this.audioCtx.close() } catch (x) { console.debug('audioCtx.close failed during seek', x) }
+          }
+          this.player = null
+          this.audioCtx = null
+          // set pausedAt to targetOffset then resume
+          this.pausedAt = targetOffset
+          this.isPaused = true
+          await this.resumeMidi()
+        }
+      } catch (err) {
+        console.warn('seek error', err)
+      }
     },
     scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -398,6 +467,11 @@ export default {
 .btn:disabled { opacity:.6; cursor:not-allowed; }
 .progress { position: relative; flex: 1 1 160px; height: 8px; background: #e5e7eb; border-radius: 999px; overflow: hidden; }
 .progress .bar { position:absolute; left:0; top:0; bottom:0; width:0%; background:#3b82f6; }
+.time { font-size: 12px; color: var(--muted); }
+/* Slider style for seek */
+.slider { appearance: none; -webkit-appearance: none; width: 160px; height: 6px; border-radius: 999px; background: #e5e7eb; outline: none; }
+.slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #3b82f6; cursor: pointer; }
+.slider::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: #3b82f6; cursor: pointer; }
 
 .abl-grid { display: grid; grid-template-columns: 320px 1fr; gap: 18px; align-items: start; }
 .img-placeholder { background: #fff7ed; border: 1px dashed #f59e0b; color:#a16207; padding: 24px; border-radius: 12px; text-align:center; }
