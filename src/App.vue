@@ -36,7 +36,7 @@
               <button class="btn outline" @click="pauseMidi" :disabled="playingIndex!==1 || isPaused">⏸ Pause</button>
               <button class="btn outline" @click="playMidi(1)" :disabled="playingIndex!==1 || !isPaused">▶ Resume</button>
               <button class="btn outline" @click="stopMidi" :disabled="playingIndex!==1">■ Stop</button>
-                <a class="btn link" href="/audio/demo1.midi" download>Download</a>
+                <a class="btn link" href="audio/demo1.midi" download>Download</a>
               <div class="progress"><div class="bar" :style="{width: (progressList[0]*100)+'%'}"></div></div>
               </div>
           </div>
@@ -47,7 +47,7 @@
               <button class="btn outline" @click="pauseMidi" :disabled="playingIndex!==2 || isPaused">⏸ Pause</button>
               <button class="btn outline" @click="playMidi(2)" :disabled="playingIndex!==2 || !isPaused">▶ Resume</button>
               <button class="btn outline" @click="stopMidi" :disabled="playingIndex!==2">■ Stop</button>
-                <a class="btn link" href="/audio/demo2.midi" download>Download</a>
+                <a class="btn link" href="audio/demo2.midi" download>Download</a>
               <div class="progress"><div class="bar" :style="{width: (progressList[1]*100)+'%'}"></div></div>
               </div>
           </div>
@@ -58,7 +58,7 @@
               <button class="btn outline" @click="pauseMidi" :disabled="playingIndex!==3 || isPaused">⏸ Pause</button>
               <button class="btn outline" @click="playMidi(3)" :disabled="playingIndex!==3 || !isPaused">▶ Resume</button>
               <button class="btn outline" @click="stopMidi" :disabled="playingIndex!==3">■ Stop</button>
-                <a class="btn link" href="/audio/demo3.midi" download>Download</a>
+                <a class="btn link" href="audio/demo3.midi" download>Download</a>
               <div class="progress"><div class="bar" :style="{width: (progressList[2]*100)+'%'}"></div></div>
               </div>
           </div>
@@ -132,9 +132,9 @@ export default {
         this.playingIndex = idx
 
         const fileMap = {
-          1: '/audio/demo1.midi',
-          2: '/audio/demo2.midi',
-          3: '/audio/demo3.midi'
+          1: 'audio/demo1.midi',
+          2: 'audio/demo2.midi',
+          3: 'audio/demo3.midi'
         }
         const url = fileMap[idx]
         if (!url) return
@@ -234,7 +234,7 @@ export default {
         const idx = this.playingIndex
         const { Midi } = await import('@tonejs/midi')
         const Soundfont = (await import('soundfont-player')).default
-        const fileMap = { 1: '/audio/demo1.midi', 2: '/audio/demo2.midi', 3: '/audio/demo3.midi' }
+        const fileMap = { 1: 'audio/demo1.midi', 2: 'audio/demo2.midi', 3: 'audio/demo3.midi' }
         const url = fileMap[idx]
         const resp = await fetch(url)
         if (!resp.ok) throw new Error('Failed to fetch MIDI: ' + resp.status)
