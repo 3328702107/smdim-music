@@ -6,7 +6,7 @@
       <p class="affiliations">¹Wuhan University of Technology, Wuhan, China · ²Hubei University of Technology, Wuhan, China · tangxing@whut.edu.cn</p>
       <div class="links">
         <a href="https://arxiv.org/abs/2507.20128" target="_blank" rel="noopener" class="link">Paper</a>
-        <a href="https://github.com/3328702107/smdim-music" target="_blank" rel="noopener" class="link">Code Repo</a>
+        <a href="https://github.com/3328702107/Supplementary_Material" target="_blank" rel="noopener" class="link">Code Repo</a>
       </div>
       <nav class="topnav">
         <a href="#demos">Demos</a>
