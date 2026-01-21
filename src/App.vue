@@ -2,7 +2,7 @@
   <div id="page">
     <header class="hero">
       <h1 class="title">Diffusion-based Symbolic Music Generation with Structured State Space Models</h1>
-      <p class="authors">Shenghua Yuan*, Xing Tang*, Jiatao Chen*, Tianming Xie¹, Jing Wang², Bing Shi¹</p>
+      <p class="authors">Jinhan Xu*, Xing Tang*, Houpeng Yang*, Haoran Zhang¹, Shenghua Yuan¹, Jiatao Chen¹, Tianming Xie¹, Jing Wang², Bing Shi¹</p>
       <p class="affiliations">¹Wuhan University of Technology, Wuhan, China · ²Hubei University of Technology, Wuhan, China · tangxing@whut.edu.cn</p>
       <div class="links">
         <a href="https://arxiv.org/abs/2507.20128" target="_blank" rel="noopener" class="link">Paper</a>
