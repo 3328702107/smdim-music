@@ -1,7 +1,7 @@
 <template>
   <div id="page">
     <header class="hero">
-      <h1 class="title">Diffusion-based Symbolic Music Generation with Structured State Space Models</h1>
+      <h1 class="title">Efficient Long-Sequence Diffusion Modeling for Symbolic Music Generation</h1>
       <p class="authors">Jinhan Xu*, Xing Tang*, Houpeng Yang*, Haoran Zhang¹, Shenghua Yuan¹, Jiatao Chen¹, Tianming Xie¹, Jing Wang², Bing Shi¹</p>
       <p class="affiliations">¹Wuhan University of Technology, Wuhan, China · ²Hubei University of Technology, Wuhan, China · tangxing@whut.edu.cn</p>
       <div class="links">
